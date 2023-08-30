@@ -2,9 +2,10 @@ import {defer} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
+import Hero from '~/components/Hero';
 
 export const meta = () => {
-  return [{title: 'Hydrogen | Home'}];
+  return [{title: 'PureArt | Home'}];
 };
 
 export async function loader({context}) {
@@ -19,10 +20,11 @@ export async function loader({context}) {
 export default function Homepage() {
   const data = useLoaderData();
   return (
-    <div className="home">
+    <>
+      <Hero />
       <FeaturedCollection collection={data.featuredCollection} />
       <RecommendedProducts products={data.recommendedProducts} />
-    </div>
+    </>
   );
 }
 

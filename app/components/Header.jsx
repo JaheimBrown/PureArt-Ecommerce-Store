@@ -1,12 +1,42 @@
+import React, {useState, useEffect} from 'react';
 import {Await, NavLink, useMatches} from '@remix-run/react';
 import {Suspense} from 'react';
 
+// IMAGES & ICONS
+import logo from './images/logo.svg';
+import search from './images/icons/search.svg';
+import cart from './images/icons/cart.svg';
+import menu from './images/icons/menu.svg';
+
 export function Header({header, isLoggedIn, cart}) {
+  // STATES
+  const [scrolled, setScrolled] = useState(false);
   const {shop, menu} = header;
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const handleScroll = () => {
+        if (window.scrollY > 0) {
+          setScrolled(true);
+        } else {
+          setScrolled(false);
+        }
+      };
+
+      // Attach the scroll event listener when the component mounts
+      window.addEventListener('scroll', handleScroll);
+
+      // Clean up the event listener when the component unmounts
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, []);
+
   return (
-    <header className="header">
+    <header className={`header ${scrolled ? 'glass' : 'normal'}`}>
       <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-        <strong>{shop.name}</strong>
+        <img src={logo} alt="PureArt Logo" />
       </NavLink>
       <HeaderMenu menu={menu} viewport="desktop" />
       <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
@@ -28,7 +58,7 @@ export function HeaderMenu({menu, viewport}) {
 
   return (
     <nav className={className} role="navigation">
-      {viewport === 'mobile' && (
+      {/* {viewport === 'mobile' && (
         <NavLink
           end
           onClick={closeAside}
@@ -38,10 +68,22 @@ export function HeaderMenu({menu, viewport}) {
         >
           Home
         </NavLink>
-      )}
-      {(menu || FALLBACK_HEADER_MENU).items.map((item) => {
-        if (!item.url) return null;
+      )} */}
 
+      {/* PUT menu VARIABLE HERE LATER FOR STORE MENU LINKS */}
+      {/* (menu || FALLBACK_HEADER_MENU) */}
+      <NavLink
+        end
+        onClick={closeAside}
+        prefetch="intent"
+        style={activeLinkStyle}
+        to="/"
+      >
+        Home
+      </NavLink>
+
+      {FALLBACK_HEADER_MENU.items.map((item) => {
+        if (!item.url) return null;
         // if the url is internal, we strip the domain
         const url =
           item.url.includes('myshopify.com') ||
@@ -66,15 +108,12 @@ export function HeaderMenu({menu, viewport}) {
   );
 }
 
-function HeaderCtas({isLoggedIn, cart}) {
+function HeaderCtas({cart}) {
   return (
     <nav className="header-ctas" role="navigation">
-      <HeaderMenuMobileToggle />
-      <NavLink prefetch="intent" to="/account" style={activeLinkStyle}>
-        {isLoggedIn ? 'Account' : 'Sign in'}
-      </NavLink>
       <SearchToggle />
       <CartToggle cart={cart} />
+      <HeaderMenuMobileToggle />
     </nav>
   );
 }
@@ -82,17 +121,34 @@ function HeaderCtas({isLoggedIn, cart}) {
 function HeaderMenuMobileToggle() {
   return (
     <a className="header-menu-mobile-toggle" href="#mobile-menu-aside">
-      <h3>☰</h3>
+      <img src={menu} alt="menu icon" />
     </a>
   );
 }
 
 function SearchToggle() {
-  return <a href="#search-aside">Search</a>;
+  return (
+    <a href="#search-aside">
+      <img src={search} alt="search icon" />
+    </a>
+  );
 }
 
 function CartBadge({count}) {
-  return <a href="#cart-aside">Cart {count}</a>;
+  return (
+    <a
+      href="#cart-aside"
+      className="relative flex justify-center items-center gap-2"
+    >
+      <img src={cart} alt="cart icon" />{' '}
+      <span
+        className="absolute -top-2 -right-2 rounded-full bg-white 
+      px-1"
+      >
+        {count}
+      </span>
+    </a>
+  );
 }
 
 function CartToggle({cart}) {
@@ -124,35 +180,57 @@ const FALLBACK_HEADER_MENU = {
       id: 'gid://shopify/MenuItem/461609533496',
       resourceId: null,
       tags: [],
-      title: 'Blog',
-      type: 'HTTP',
-      url: '/blogs/journal',
+      title: 'services',
+      type: 'PAGE',
+      url: '/pages/services',
       items: [],
     },
     {
       id: 'gid://shopify/MenuItem/461609566264',
       resourceId: null,
       tags: [],
-      title: 'Policies',
-      type: 'HTTP',
-      url: '/policies',
+      title: 'About',
+      type: 'PAGE',
+      url: '/pages/about',
       items: [],
     },
     {
       id: 'gid://shopify/MenuItem/461609599032',
       resourceId: 'gid://shopify/Page/92591030328',
       tags: [],
-      title: 'About',
+      title: 'Contact',
       type: 'PAGE',
-      url: '/pages/about',
+      url: '/pages/contact',
       items: [],
     },
   ],
 };
 
 function activeLinkStyle({isActive, isPending}) {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const handleScroll = () => {
+        if (window.scrollY > 0) {
+          setScrolled(true);
+        } else {
+          setScrolled(false);
+        }
+      };
+
+      // Attach the scroll event listener when the component mounts
+      window.addEventListener('scroll', handleScroll);
+
+      // Clean up the event listener when the component unmounts
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, []);
+
   return {
     fontWeight: isActive ? 'bold' : '',
-    color: isPending ? 'grey' : 'black',
+    color: scrolled ? 'white' : 'white',
   };
 }
