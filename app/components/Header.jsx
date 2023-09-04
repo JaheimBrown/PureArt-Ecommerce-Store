@@ -15,6 +15,10 @@ export function Header({header, isLoggedIn, cart}) {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      if (window.scrollY > 0) {
+        setScrolled(true);
+      }
+
       const handleScroll = () => {
         if (window.scrollY > 0) {
           setScrolled(true);

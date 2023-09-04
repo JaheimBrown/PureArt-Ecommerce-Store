@@ -1,10 +1,13 @@
-import Slider from "./Custom/Slider"
-import Loader from "./Custom/Loader"
+import Slider from './Custom/Slider';
+import HomeCollectionComponent from './FeatureCollections/Collection';
 
-const Hero = () => {
+const Hero = ({collections}) => {
   return (
-    <Slider />
-  )
-}
+    <>
+      <Slider />
+      <HomeCollectionComponent collections={collections.nodes} />
+    </>
+  );
+};
 
-export default Hero
+export default Hero;

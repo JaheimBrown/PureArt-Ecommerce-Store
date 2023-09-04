@@ -524,3 +524,90 @@ aside li {
   width: 100%;
   transition: width 5s ease;
 }
+
+
+.collection-grid {
+  padding-top: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  gap: 0px;
+  margin-inline: auto;
+  width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .collection-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* TEXT STYLES */
+.text-stroke_card {
+  color: transparent;
+  -webkit-text-stroke: .8px #fff; /* Width and color of the stroke (for webkit browsers) */
+  text-stroke: .8px #fff; /* Width and color of the stroke */
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 52.8px;
+}
+
+.shadow2 {
+  box-shadow: -6px 6px 0px rgba(255, 255, 255, 0.3) !important;
+}
+
+.handle-text {
+  color: transparent;
+  -webkit-text-stroke: .8px #fff; /* Width and color of the stroke (for webkit browsers) */
+  text-stroke: .8px #fff; /* Width and color of the stroke */
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 52.8px;
+  text-decoration: none !important;
+  text-align: center;
+}
+
+.handle-text:hover {
+  text-decoration: none !important;
+}
+
+.handle-text-filled {
+  color: white;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 52.8px;
+  text-decoration: none !important;
+  text-align: center;
+}
+
+.handle-text--filled:hover {
+  text-decoration: none !important;
+}
+
+.show {
+  color: white;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 52.8px;
+  position: absolute;
+  left: -2rem;
+}
+
+
+
+/* ANIMATIONS */
+.rotate-animation {
+  animation: rotate 5s linear infinite; /* Adjust the duration to 5s */
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
