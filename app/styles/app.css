@@ -611,3 +611,32 @@ aside li {
     transform: rotate(360deg);
   }
 }
+
+/* PRODUCTS GRID STYLING */
+/* Grid container class */
+.products-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20%, 1fr)); /* Adjust the percentage as needed */
+  gap: 20px; /* Adjust the gap between items */
+  width: 100%;
+  max-width: 1300px;
+  margin-inline: auto;
+}
+
+/* Media query for medium screens */
+@media (max-width: 768px) {
+  .products-grid-container {
+    grid-template-columns: repeat(330px, 1fr); /* Display 3 items on medium screens */
+  }
+}
+
+/* Media query for smaller screens */
+@media (max-width: 576px) {
+  .products-grid-container {
+    grid-template-columns: 1fr; /* Display 1 item on smaller screens */
+  }
+}
+
+.product-card-border {
+  border: 1px solid #EAEAEA;
+}

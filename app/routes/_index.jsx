@@ -11,16 +11,17 @@ export const meta = () => {
 export async function loader({context}) {
   const {storefront} = context;
   const {collections} = await storefront.query(COLLECTIONS_QUERY);
+  const newProducts = await storefront.query(NEWPRODUCTS_QUERY);
   const storeCollections = collections;
 
-  return defer({storeCollections});
+  return defer({storeCollections, newProducts});
 }
 
 export default function Homepage() {
   const data = useLoaderData();
   return (
     <>
-      <Hero collections={data.storeCollections} />
+      <Hero collections={data.storeCollections} products={data.newProducts} />
     </>
   );
 }
@@ -128,6 +129,37 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
       }
     }
   }
+`;
+
+const NEWPRODUCTS_QUERY = `#graphql
+fragment NewProduct on Product {
+  id
+  title
+  handle
+  priceRange {
+    minVariantPrice {
+      amount
+      currencyCode
+    }
+  }
+  images(first: 1) {
+    nodes {
+      id
+      url
+      altText
+      width
+      height
+    }
+  }
+}
+
+query NewProducts{
+  products(first: 8, sortKey: CREATED_AT, reverse: true) {
+    nodes {
+      ...NewProduct
+    }
+  }
+}
 `;
 
 const COLLECTIONS_QUERY = `#graphql
