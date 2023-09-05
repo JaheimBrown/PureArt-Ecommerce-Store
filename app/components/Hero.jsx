@@ -1,6 +1,7 @@
 import Slider from './Custom/Slider';
 import HomeCollectionComponent from './FeatureCollections/Collection';
 import NewProducts from './NewProducts';
+import Divider from './Divider';
 
 const Hero = ({collections, products}) => {
   return (
@@ -8,6 +9,7 @@ const Hero = ({collections, products}) => {
       <Slider />
       <HomeCollectionComponent collections={collections.nodes} />
       <NewProducts products={products} />
+      <Divider />
     </>
   );
 };
