@@ -188,8 +188,12 @@ aside li {
 * --------------------------------------------------
 */
 .footer {
-  background: var(--color-dark);
+  background: #3E3E3E;
   margin-top: auto;
+}
+
+.footer-accent {
+  background: #474747;
 }
 
 .footer-menu-missing {
@@ -466,6 +470,29 @@ aside li {
   transform: scale(1.02);
 }
 
+.social-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #515151;
+  padding: 10px;
+  width: 100%;
+  color: #fff;
+}
+
+.social-btn img {
+  width: 18px;
+  height: 18px;
+}
+
+.social-btn:hover {
+  text-decoration: none !important;
+  background: #fff;
+  color: #000;
+}
+
 
 .slide_01-graphic {
   position: absolute;
@@ -665,4 +692,8 @@ aside li {
 
 .paragraph-text {
   @apply text-[20px] leading-[30px];
+}
+
+.paragraph-text-sm {
+  @apply text-[14px] leading-[25px];
 }
