@@ -657,3 +657,12 @@ aside li {
   border-bottom: 3px dashed #f0f0f0; /* Adjust the thickness and color of the dashed line */
   margin-bottom: 10px; /* Adjust the spacing between the dashes */
 }
+
+/* TAILWIND HELPERS */
+.heading-2 {
+  @apply md:text-[48px] text-[32px] leading-[52.8px] font-bold;
+}
+
+.paragraph-text {
+  @apply text-[20px] leading-[30px];
+}
