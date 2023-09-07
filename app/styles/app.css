@@ -318,17 +318,29 @@ aside li {
 * routes/collections._index.tsx
 * --------------------------------------------------
 */
-.collections-grid {
+
+.collections-grid-container {
   display: grid;
-  grid-gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(var(--grid-item-width), 1fr));
-  margin-bottom: 2rem;
+  grid-template-columns: repeat(2, 1fr);
+  min-height: 90vh;
+  gap: 0 !important;
 }
 
-.collection-item img {
-  height: auto;
+@media screen and (max-width: 768px) {
+  .collections-grid-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: auto;
+  }
 }
 
+.collection-text {
+  color: #ECECEC;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 52.8px; 
+}
 /*
 * --------------------------------------------------
 * routes/collections.$handle.tsx
@@ -579,6 +591,16 @@ aside li {
   line-height: 52.8px;
 }
 
+.text-stroke {
+  color: transparent;
+  -webkit-text-stroke: .8px #fff; /* Width and color of the stroke (for webkit browsers) */
+  text-stroke: .8px #fff; /* Width and color of the stroke */
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 52.8px; 
+}
+
 .shadow2 {
   box-shadow: -6px 6px 0px rgba(255, 255, 255, 0.3) !important;
 }
@@ -696,4 +718,20 @@ aside li {
 
 .paragraph-text-sm {
   @apply text-[14px] leading-[25px];
+}
+
+.center-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Define a CSS class to darken an image */
+.darken-image {
+  filter: brightness(0.4); 
+}
+
+.darken-image-sm {
+  filter: brightness(0.6); 
 }

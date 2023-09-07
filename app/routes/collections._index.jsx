@@ -1,6 +1,7 @@
 import {useLoaderData, Link} from '@remix-run/react';
 import {json} from '@shopify/remix-oxygen';
 import {Pagination, getPaginationVariables, Image} from '@shopify/hydrogen';
+import {useState} from 'react';
 
 export async function loader({context, request}) {
   const paginationVariables = getPaginationVariables(request, {
@@ -18,17 +19,22 @@ export default function Collections() {
   const {collections} = useLoaderData();
 
   return (
-    <div className="collections">
-      <h1>Collections</h1>
+    <div className="top-[64px]">
       <Pagination connection={collections}>
-        {({nodes, isLoading, PreviousLink, NextLink}) => (
+        {({nodes, isLoading, NextLink}) => (
           <div>
-            <PreviousLink>
-              {isLoading ? 'Loading...' : <span>↑ Load previous</span>}
-            </PreviousLink>
             <CollectionsGrid collections={nodes} />
             <NextLink>
-              {isLoading ? 'Loading...' : <span>Load more ↓</span>}
+              {isLoading ? (
+                'Loading...'
+              ) : (
+                <span
+                  className="primary-btn max-w-[200px] mx-auto mt-12"
+                  style={{backgroundColor: '#000', color: '#fff'}}
+                >
+                  Load More
+                </span>
+              )}
             </NextLink>
           </div>
         )}
@@ -39,7 +45,7 @@ export default function Collections() {
 
 function CollectionsGrid({collections}) {
   return (
-    <div className="collections-grid">
+    <div className="collections-grid-container">
       {collections.map((collection, index) => (
         <CollectionItem
           key={collection.id}
@@ -52,12 +58,23 @@ function CollectionsGrid({collections}) {
 }
 
 function CollectionItem({collection, index}) {
+  const [hoveredIndex, setHoveredIndex] = useState(-1);
+
+  const handleMouseOver = (index) => {
+    setHoveredIndex(index);
+  };
+
+  const handleMouseOut = () => {
+    setHoveredIndex(-1);
+  };
   return (
     <Link
-      className="collection-item"
+      className={`flex justify-center items-center relative w-full h-full`}
       key={collection.id}
       to={`/collections/${collection.handle}`}
       prefetch="intent"
+      onMouseOver={() => handleMouseOver(index)}
+      onMouseOut={handleMouseOut}
     >
       {collection.image && (
         <Image
@@ -65,9 +82,25 @@ function CollectionItem({collection, index}) {
           aspectRatio="1/1"
           data={collection.image}
           loading={index < 3 ? 'eager' : undefined}
+          className={
+            hoveredIndex === index ? 'darken-image-sm' : 'darken-image'
+          }
         />
       )}
-      <h5>{collection.title}</h5>
+      <div className="center-text flex justify-center items-center gap-2">
+        <span
+          className={`relative ${
+            hoveredIndex === index ? 'show rotate-animation' : 'hidden'
+          }`}
+        >
+          *
+        </span>
+        <h2
+          className={hoveredIndex === index ? 'collection-text' : 'text-stroke'}
+        >
+          {collection.title}
+        </h2>
+      </div>
     </Link>
   );
 }
