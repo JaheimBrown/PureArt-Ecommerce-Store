@@ -1,8 +1,8 @@
-import {useEffect, useState} from 'react'
-import { sliderData } from './SliderData';
+import {useEffect, useState} from 'react';
+import {sliderData} from './SliderData';
 
 const Loader = ({currentIndex}) => {
-    const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   // SWITCHING FUNCTIONALITY
   useEffect(() => {
@@ -26,13 +26,21 @@ const Loader = ({currentIndex}) => {
     };
   }, []); // Empty dependency array ensures this runs only once after mounting
 
-
   return (
-      <div className='expanding-container'>
-        <div className={expanded ? 'expanding-element expanded' : 'expanding-element'}
-        style={{backgroundColor: `${sliderData[currentIndex].subTextBg}`}} />
+    <div
+      className="expanding-container-wrapper"
+      style={{backgroundColor: `${sliderData[currentIndex].bgColour}`}}
+    >
+      <div className="expanding-container">
+        <div
+          className={
+            expanded ? 'expanding-element expanded' : 'expanding-element'
+          }
+          style={{backgroundColor: `${sliderData[currentIndex].subTextBg}`}}
+        />
       </div>
-  )
-}
+    </div>
+  );
+};
 
-export default Loader
+export default Loader;

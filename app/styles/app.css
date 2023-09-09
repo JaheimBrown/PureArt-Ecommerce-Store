@@ -542,6 +542,13 @@ aside li {
 
 
 /* EXPANDED ELEMNENT STYLING */
+.expanding-container-wrapper {
+  position: relative;
+  height: 12px;
+  width: 100%;
+  overflow: hidden;
+}
+
 .expanding-container {
   position: relative;
   height: 12px;
@@ -713,7 +720,7 @@ aside li {
 }
 
 .paragraph-text {
-  @apply text-[20px] leading-[30px];
+  @apply text-[20px] leading-[32px];
 }
 
 .paragraph-text-sm {
@@ -730,6 +737,10 @@ aside li {
 /* Define a CSS class to darken an image */
 .darken-image {
   filter: brightness(0.4); 
+}
+
+.darken-image-md {
+  filter: brightness(0.65); 
 }
 
 .darken-image-sm {

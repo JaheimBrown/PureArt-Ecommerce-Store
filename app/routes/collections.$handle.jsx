@@ -8,8 +8,11 @@ import {
 } from '@shopify/hydrogen';
 import {useVariantUrl} from '~/utils';
 
+// COMPONENTS
+import ProductCard from '~/components/ProductCard';
+
 export const meta = ({data}) => {
-  return [{title: `Hydrogen | ${data.collection.title} Collection`}];
+  return [{title: `PureArt | ${data.collection.title} Collection`}];
 };
 
 export async function loader({request, params, context}) {
@@ -40,18 +43,43 @@ export default function Collection() {
 
   return (
     <div className="collection">
-      <h1>{collection.title}</h1>
-      <p className="collection-description">{collection.description}</p>
+      <div
+        className="absolute top-0 left-0 w-full h-[50vh] max-h-[600px] aspect-video darken-image-sm py-16 px-6"
+        style={{
+          backgroundImage: `url(${collection.image.url})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      ></div>
+      <div className="max-w-[1300px] w-full mx-auto px-6 py-16">
+        <h1 className="mt-12 heading-2 text-white relative">
+          {collection.title}
+        </h1>
+        <p
+          className="relative paragraph-text max-w-[650px] mt-6"
+          style={{color: '#E3E3E3'}}
+        >
+          {collection.description}
+        </p>
+      </div>
+
       <Pagination connection={collection.products}>
-        {({nodes, isLoading, PreviousLink, NextLink}) => (
+        {({nodes, isLoading, NextLink}) => (
           <>
-            <PreviousLink>
-              {isLoading ? 'Loading...' : <span>↑ Load previous</span>}
-            </PreviousLink>
             <ProductsGrid products={nodes} />
             <br />
             <NextLink>
-              {isLoading ? 'Loading...' : <span>Load more ↓</span>}
+              {isLoading ? (
+                'Loading...'
+              ) : (
+                <span
+                  className="primary-btn max-w-[200px] mx-auto mt-16"
+                  style={{backgroundColor: '#000', color: '#fff'}}
+                >
+                  Load more ↓
+                </span>
+              )}
             </NextLink>
           </>
         )}
@@ -62,7 +90,7 @@ export default function Collection() {
 
 function ProductsGrid({products}) {
   return (
-    <div className="products-grid">
+    <div className="products-grid-container mt-16">
       {products.map((product, index) => {
         return (
           <ProductItem
@@ -81,7 +109,7 @@ function ProductItem({product, loading}) {
   const variantUrl = useVariantUrl(product.handle, variant.selectedOptions);
   return (
     <Link
-      className="product-item"
+      className="product-item product-card-border"
       key={product.id}
       prefetch="intent"
       to={variantUrl}
@@ -95,10 +123,15 @@ function ProductItem({product, loading}) {
           sizes="(min-width: 45em) 400px, 100vw"
         />
       )}
-      <h4>{product.title}</h4>
-      <small>
-        <Money data={product.priceRange.minVariantPrice} />
-      </small>
+      <div className="flex flex-col items-start justify-start gap-[2px] p-3">
+        <h4 className="text-sm font-medium">{product.title}</h4>
+        <small>
+          <Money
+            data={product.priceRange.minVariantPrice}
+            className="text-[18px] font-bold leading-[20px]"
+          />
+        </small>
+      </div>
     </Link>
   );
 }
@@ -153,6 +186,13 @@ const COLLECTION_QUERY = `#graphql
     collection(handle: $handle) {
       id
       handle
+      image {
+        id
+        url
+        altText
+        width
+        height
+      }
       title
       description
       products(

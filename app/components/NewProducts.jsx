@@ -7,7 +7,9 @@ import ProductCard from './ProductCard';
 const NewProducts = ({products}) => {
   return (
     <section className="p-6">
-      <h2 className="uppercase text-[32px] font-medium">New in store</h2>
+      <h2 className="uppercase text-[32px] font-medium w-full max-w-[1300px] mx-auto">
+        New in store
+      </h2>
 
       <Suspense fallback={<div>Loading...</div>}>
         <Await resolve={products}>
